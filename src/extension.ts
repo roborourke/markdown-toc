@@ -15,6 +15,10 @@ import {
     TextEditorEdit
 } from 'vscode';
 
+import { 
+    EOL
+} from 'os';
+
 const REGEXP_TOC_START          = /\s*<!--(.*)TOC(.*)-->/gi;
 const REGEXP_TOC_STOP           = /\s*<!--(.*)\/TOC(.*)-->/gi;
 const REGEXP_TOC_CONFIG         = /\w+[:=][\w.]+/gi;
@@ -267,7 +271,10 @@ class MarkdownTocTools {
         let lineEnding      = <string>  workspace.getConfiguration("files").get("eol");
         let tabSize         = <number>  workspace.getConfiguration("[markdown]")["editor.tabSize"];
         let insertSpaces    = <boolean> workspace.getConfiguration("[markdown]")["editor.insertSpaces"];
-            
+
+        if (lineEnding === 'auto') {
+            lineEnding = <string> EOL;
+        }
         if(tabSize === undefined || tabSize === null) {
             tabSize = <number> workspace.getConfiguration("editor").get("tabSize");
         }
